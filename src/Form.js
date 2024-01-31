@@ -1,4 +1,3 @@
-import { ref } from 'vue';
 import axios from 'axios';
 import Errors from './Errors';
 import { guardAgainstReservedFieldName, isArray, isFile, merge, objectToFormData } from './util';
@@ -11,8 +10,8 @@ class Form {
      * @param {object} options
      */
     constructor(data = {}, options = {}) {
-        this.processing = ref(false);
-        this.successful = ref(false);
+        this.processing = false;
+        this.successful = false;
 
         this.withData(data)
             .withOptions(options)
@@ -30,13 +29,13 @@ class Form {
         this.setInitialValues(data);
 
         this.errors = new Errors();
-        this.processing.value = false;
-        this.successful.value = false;
+        this.processing = false;
+        this.successful = false;
 
         for (const field in data) {
             guardAgainstReservedFieldName(field);
 
-            this[field] = ref(data[field]);
+            this[field] = data[field];
         }
 
         return this;
@@ -185,8 +184,8 @@ class Form {
     submit(requestType, url) {
         this.__validateRequestType(requestType);
         this.errors.clear();
-        this.processing.value = true;
-        this.successful.value = false;
+        this.processing = true;
+        this.successful = false;
 
         return new Promise((resolve, reject) => {
             this.__http[requestType](
@@ -200,13 +199,13 @@ class Form {
                 }
             )
                 .then(response => {
-                    this.processing.value = false;
+                    this.processing = false;
                     this.onSuccess(response.data);
 
                     resolve(response.data);
                 })
                 .catch(error => {
-                    this.processing.value = false;
+                    this.processing = false;
                     this.onFail(error);
 
                     reject(error);

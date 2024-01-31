@@ -1,11 +1,9 @@
-import { reactive } from 'vue';
-
 class Errors {
     /**
      * Create a new Errors instance.
      */
     constructor(errors = {}) {
-        this.errors = reactive(errors);
+        this.errors = errors;
     }
 
     /**
@@ -68,7 +66,7 @@ class Errors {
      * @param {object} errors
      */
     record(errors = {}) {
-        this.errors = reactive(errors);
+        this.errors = errors;
     }
 
     /**
@@ -89,7 +87,7 @@ class Errors {
             .filter(e => e === field || e.startsWith(`${field}.`) || e.startsWith(`${field}[`))
             .forEach(e => delete errors[e]);
 
-        this.errors = reactive(errors);
+        this.errors = errors;
     }
 }
 
