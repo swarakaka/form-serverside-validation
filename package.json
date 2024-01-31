@@ -1,0 +1,46 @@
+{
+  "name": "form-serverside-validation",
+  "version": "1.0.0",
+  "description": "An easy way to validate forms using back end logic",
+  "main": "dist/index.js",
+  "jsnext:main": "src/index.js",
+  "scripts": {
+    "build": "rm -rf dist/* && babel src -d dist",
+    "test": "jest",
+    "prepublish": "npm run test; npm run build",
+    "format": "prettier --write \"**/*.{css,js,vue}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/swarakaka/form-serverside-validation.git"
+  },
+  "keywords": [
+    "spatie",
+    "vue",
+    "laravel",
+    "form",
+    "validation",
+    "server"
+  ],
+  "author": "Freek Van der Herten",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/swarakaka/form-backend-validation/issues"
+  },
+  "homepage": "https://github.com/swarakaka/form-serverside-validation",
+  "devDependencies": {
+    "axios": "^1.6.7",
+    "axios-mock-adapter": "^1.22.0",
+    "babel-cli": "^6.26.0",
+    "babel-jest": "^29.7.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.2.4"
+  },
+  "jest": {
+    "testRegex": "test.js$"
+  },
+  "dependencies": {
+  }
+}
