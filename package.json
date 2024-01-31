@@ -1,14 +1,15 @@
 {
   "name": "form-serverside-validation",
   "version": "1.0.0",
+  "type": "module",
   "description": "Simplifying form validation through serverside logic.",
   "main": "dist/index.js",
   "jsnext:main": "src/index.js",
   "scripts": {
-    "build": "rm -rf dist/* && babel src -d dist",
-    "test": "jest",
-    "prepublish": "npm run test; npm run build",
-    "format": "prettier --write \"**/*.{css,js,vue}\""
+    "dev": "./build.js --watch",
+    "build": "npm run clean && ./build.js && tsc --emitDeclarationOnly",
+    "clean": "rm -rf types && rm -rf dist",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
