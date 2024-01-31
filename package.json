@@ -1,7 +1,7 @@
 {
   "name": "form-serverside-validation",
   "version": "1.0.0",
-  "description": "An easy way to validate forms using back end logic",
+  "description": "Simplifying form validation through serverside logic.",
   "main": "dist/index.js",
   "jsnext:main": "src/index.js",
   "scripts": {
@@ -15,14 +15,14 @@
     "url": "https://github.com/swarakaka/form-serverside-validation.git"
   },
   "keywords": [
-    "spatie",
+    "inertiajs",
     "vue",
     "laravel",
     "form",
     "validation",
-    "server"
+    "serverside"
   ],
-  "author": "Freek Van der Herten",
+  "author": "Swara Abdalla",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/swarakaka/form-backend-validation/issues"
