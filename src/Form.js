@@ -64,9 +64,7 @@ export default class Form {
             this.onFail = options.onFail;
         }
 
-        const windowAxios = typeof window === 'undefined' ? false : window.axios
-
-        this.__http = options.http || windowAxios || require('axios');
+        this.__http = options.http || axios;
 
         if (!this.__http) {
             throw new Error(
