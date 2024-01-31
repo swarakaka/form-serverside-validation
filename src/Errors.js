@@ -1,4 +1,4 @@
-class Errors {
+export default class Errors {
     /**
      * Create a new Errors instance.
      */
@@ -21,17 +21,9 @@ class Errors {
      * @param {string} field
      */
     has(field) {
-        let hasError = Object.prototype.hasOwnProperty.call(this.errors, field);
-
-        if (!hasError) {
-            const errors = Object.keys(this.errors).filter(
-                e => e.startsWith(`${field}.`) || e.startsWith(`${field}[`)
-            );
-
-            hasError = errors.length > 0;
-        }
-
-        return hasError;
+        return Object.keys(this.errors).some(
+            e => e === field || e.startsWith(`${field}.`) || e.startsWith(`${field}[`)
+        );
     }
 
     first(field) {
@@ -90,5 +82,3 @@ class Errors {
         this.errors = errors;
     }
 }
-
-export default Errors;

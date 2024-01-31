@@ -2,7 +2,7 @@ import axios from 'axios';
 import Errors from './Errors';
 import { guardAgainstReservedFieldName, isArray, isFile, merge, objectToFormData } from './util';
 
-class Form {
+export default class Form {
     /**
      * Create a new Form instance.
      *
@@ -64,7 +64,9 @@ class Form {
             this.onFail = options.onFail;
         }
 
-        this.__http = options.http || axios;
+        const windowAxios = typeof window === 'undefined' ? false : window.axios
+
+        this.__http = options.http || windowAxios || require('axios');
 
         if (!this.__http) {
             throw new Error(
@@ -213,118 +215,116 @@ class Form {
         });
     }
 
-    /**
+        /**
      * @returns {boolean}
      */
-    hasFiles() {
-        for (const property in this.initial) {
-            if (this.hasFilesDeep(this[property])) {
-                return true;
+        hasFiles() {
+            for (const property in this.initial) {
+                if (this.hasFilesDeep(this[property])) {
+                    return true;
+                }
             }
-        }
-
-        return false;
-    };
-
-    /**
-     * @param {Object|Array} object
-     * @returns {boolean}
-     */
-    hasFilesDeep(object) {
-        if (object === null) {
+    
             return false;
-        }
-
-        if (typeof object === 'object') {
-            for (const key in object) {
-                if (object.hasOwnProperty(key)) {
-                    if (this.hasFilesDeep(object[key])) {
-                        return true;
+        };
+    
+        /**
+         * @param {Object|Array} object
+         * @returns {boolean}
+         */
+        hasFilesDeep(object) {
+            if (object === null) {
+                return false;
+            }
+    
+            if (typeof object === 'object') {
+                for (const key in object) {
+                    if (object.hasOwnProperty(key)) {
+                        if (this.hasFilesDeep(object[key])) {
+                            return true;
+                        }
                     }
                 }
             }
-        }
-
-        if (Array.isArray(object)) {
-            for (const key in object) {
-                if (object.hasOwnProperty(key)) {
-                    return this.hasFilesDeep(object[key]);
+    
+            if (Array.isArray(object)) {
+                for (const key in object) {
+                    if (object.hasOwnProperty(key)) {
+                        return this.hasFilesDeep(object[key]);
+                    }
                 }
             }
+    
+            return isFile(object);
         }
-
-        return isFile(object);
-    }
-
-    /**
-     * Handle a successful form submission.
-     *
-     * @param {object} data
-     */
-    onSuccess(data) {
-        this.successful = true;
-
-        if (this.__options.resetOnSuccess) {
-            this.reset();
+    
+        /**
+         * Handle a successful form submission.
+         *
+         * @param {object} data
+         */
+        onSuccess(data) {
+            this.successful = true;
+    
+            if (this.__options.resetOnSuccess) {
+                this.reset();
+            }
         }
-    }
-
-    /**
-     * Handle a failed form submission.
-     *
-     * @param {object} data
-     */
-    onFail(error) {
-        this.successful = false;
-
-        if (error.response && error.response.data.errors) {
-            this.errors.record(error.response.data.errors);
+    
+        /**
+         * Handle a failed form submission.
+         *
+         * @param {object} data
+         */
+        onFail(error) {
+            this.successful = false;
+    
+            if (error.response && error.response.data.errors) {
+                this.errors.record(error.response.data.errors);
+            }
         }
-    }
-
-    /**
-     * Get the error message(s) for the given field.
-     *
-     * @param field
-     */
-    hasError(field) {
-        return this.errors.has(field);
-    }
-
-    /**
-     * Get the first error message for the given field.
-     *
-     * @param {string} field
-     * @return {string}
-     */
-    getError(field) {
-        return this.errors.first(field);
-    }
-
-    /**
-     * Get the error messages for the given field.
-     *
-     * @param {string} field
-     * @return {array}
-     */
-    getErrors(field) {
-        return this.errors.get(field);
-    }
-
-    __validateRequestType(requestType) {
-        const requestTypes = ['get', 'delete', 'head', 'post', 'put', 'patch'];
-
-        if (requestTypes.indexOf(requestType) === -1) {
-            throw new Error(
-                `\`${requestType}\` is not a valid request type, ` +
-                    `must be one of: \`${requestTypes.join('`, `')}\`.`
-            );
+    
+        /**
+         * Get the error message(s) for the given field.
+         *
+         * @param field
+         */
+        hasError(field) {
+            return this.errors.has(field);
         }
-    }
-
-    static create(data = {}) {
-        return new Form().withData(data);
-    }
+    
+        /**
+         * Get the first error message for the given field.
+         *
+         * @param {string} field
+         * @return {string}
+         */
+        getError(field) {
+            return this.errors.first(field);
+        }
+    
+        /**
+         * Get the error messages for the given field.
+         *
+         * @param {string} field
+         * @return {array}
+         */
+        getErrors(field) {
+            return this.errors.get(field);
+        }
+    
+        __validateRequestType(requestType) {
+            const requestTypes = ['get', 'delete', 'head', 'post', 'put', 'patch'];
+    
+            if (requestTypes.indexOf(requestType) === -1) {
+                throw new Error(
+                    `\`${requestType}\` is not a valid request type, ` +
+                        `must be one of: \`${requestTypes.join('`, `')}\`.`
+                );
+            }
+        }
+    
+        static create(data = {}) {
+            return new Form().withData(data);
+        }
 }
-
-export default Form;
