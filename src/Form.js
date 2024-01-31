@@ -1,3 +1,4 @@
+import { ref } from 'vue';
 import axios from 'axios';
 import Errors from './Errors';
 import { guardAgainstReservedFieldName, isArray, isFile, merge, objectToFormData } from './util';
@@ -10,8 +11,8 @@ class Form {
      * @param {object} options
      */
     constructor(data = {}, options = {}) {
-        this.processing = false;
-        this.successful = false;
+        this.processing = ref(false);
+        this.successful = ref(false);
 
         this.withData(data)
             .withOptions(options)
@@ -29,13 +30,13 @@ class Form {
         this.setInitialValues(data);
 
         this.errors = new Errors();
-        this.processing = false;
-        this.successful = false;
+        this.processing.value = false;
+        this.successful.value = false;
 
         for (const field in data) {
             guardAgainstReservedFieldName(field);
 
-            this[field] = data[field];
+            this[field] = ref(data[field]);
         }
 
         return this;
@@ -64,7 +65,7 @@ class Form {
             this.onFail = options.onFail;
         }
 
-        this.__http = options.http || axios
+        this.__http = options.http || axios;
 
         if (!this.__http) {
             throw new Error(
@@ -184,8 +185,8 @@ class Form {
     submit(requestType, url) {
         this.__validateRequestType(requestType);
         this.errors.clear();
-        this.processing = true;
-        this.successful = false;
+        this.processing.value = true;
+        this.successful.value = false;
 
         return new Promise((resolve, reject) => {
             this.__http[requestType](
@@ -199,13 +200,13 @@ class Form {
                 }
             )
                 .then(response => {
-                    this.processing = false;
+                    this.processing.value = false;
                     this.onSuccess(response.data);
 
                     resolve(response.data);
                 })
                 .catch(error => {
-                    this.processing = false;
+                    this.processing.value = false;
                     this.onFail(error);
 
                     reject(error);

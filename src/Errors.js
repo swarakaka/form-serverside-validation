@@ -1,9 +1,11 @@
+import { reactive } from 'vue';
+
 class Errors {
     /**
      * Create a new Errors instance.
      */
     constructor(errors = {}) {
-        this.record(errors);
+        this.errors = reactive(errors);
     }
 
     /**
@@ -21,7 +23,7 @@ class Errors {
      * @param {string} field
      */
     has(field) {
-        let hasError = this.errors.hasOwnProperty(field);
+        let hasError = Object.prototype.hasOwnProperty.call(this.errors, field);
 
         if (!hasError) {
             const errors = Object.keys(this.errors).filter(
@@ -66,7 +68,7 @@ class Errors {
      * @param {object} errors
      */
     record(errors = {}) {
-        this.errors = errors;
+        this.errors = reactive(errors);
     }
 
     /**
@@ -81,13 +83,13 @@ class Errors {
             return;
         }
 
-        let errors = Object.assign({}, this.errors);
+        let errors = { ...this.errors };
 
         Object.keys(errors)
             .filter(e => e === field || e.startsWith(`${field}.`) || e.startsWith(`${field}[`))
             .forEach(e => delete errors[e]);
 
-        this.errors = errors;
+        this.errors = reactive(errors);
     }
 }
 
