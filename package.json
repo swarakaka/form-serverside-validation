@@ -1,14 +1,19 @@
 {
   "name": "@swarakaka/form-serverside-validation",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "module",
   "description": "Simplifying form validation through serverside logic.",
   "main": "dist/index.js",
-  "jsnext:main": "src/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js"
+    }
+  },
   "scripts": {
     "dev": "./build.js --watch",
     "build": "npm run clean && ./build.js",
-    "clean": "rm -rf types && rm -rf dist",
+    "clean": "rm -rf && rm -rf dist",
     "prepublishOnly": "npm run build"
   },
   "repository": {
