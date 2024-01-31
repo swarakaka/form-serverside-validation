@@ -1,5 +1,5 @@
 {
-  "name": "swarakaka/form-serverside-validation",
+  "name": "@swarakaka/form-serverside-validation",
   "version": "1.0.0",
   "type": "module",
   "description": "Simplifying form validation through serverside logic.",
