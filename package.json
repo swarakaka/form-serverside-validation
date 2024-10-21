@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/swarakaka/form-serverside-validation.git"
+    "url": "git+https://github.com/swarakaka/form-serverside-validation.git"
   },
   "keywords": [
     "inertiajs",
@@ -35,16 +35,12 @@
   },
   "homepage": "https://github.com/swarakaka/form-serverside-validation",
   "devDependencies": {
-    "axios": "^1.6.7",
+    "axios": "^1.7.7",
     "axios-mock-adapter": "^1.22.0",
     "esbuild": "^0.16.13",
     "esbuild-node-externals": "^1.12.0",
     "jest": "^29.7.0",
-    "prettier": "^3.2.4",
-    "vue": "^3.4.15"
-  },
-  "peerDependencies": {
-    "vue": "^3.4.15"
+    "prettier": "^3.2.4"
   },
   "jest": {
     "testRegex": "test.js$"
