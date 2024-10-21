@@ -1,9 +1,9 @@
-export default class Errors {
+class Errors {
     /**
      * Create a new Errors instance.
      */
     constructor(errors = {}) {
-        this.errors = errors;
+        this.record(errors);
     }
 
     /**
@@ -21,9 +21,17 @@ export default class Errors {
      * @param {string} field
      */
     has(field) {
-        return Object.keys(this.errors).some(
-            e => e === field || e.startsWith(`${field}.`) || e.startsWith(`${field}[`)
-        );
+        let hasError = this.errors.hasOwnProperty(field);
+
+        if (!hasError) {
+            const errors = Object.keys(this.errors).filter(
+                e => e.startsWith(`${field}.`) || e.startsWith(`${field}[`)
+            );
+
+            hasError = errors.length > 0;
+        }
+
+        return hasError;
     }
 
     first(field) {
@@ -73,7 +81,7 @@ export default class Errors {
             return;
         }
 
-        let errors = { ...this.errors };
+        let errors = Object.assign({}, this.errors);
 
         Object.keys(errors)
             .filter(e => e === field || e.startsWith(`${field}.`) || e.startsWith(`${field}[`))
@@ -82,3 +90,5 @@ export default class Errors {
         this.errors = errors;
     }
 }
+
+export default Errors;

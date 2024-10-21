@@ -1,6 +1,6 @@
 {
   "name": "@swarakaka/form-serverside-validation",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "type": "module",
   "description": "Simplifying form validation through serverside logic.",
   "main": "dist/index.js",
